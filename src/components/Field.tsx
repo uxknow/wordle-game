@@ -163,15 +163,25 @@ export const Field = () => {
 
   //Сообщение о проигрыше
   const loseGame = () => {
-    let print = "";
+    const print = board.flat().reduce((acc, cell) => {
+      if (cell.letter !== "" && currentWorld !== correctWorld) {
+        acc = "You lose";
+      } else {
+        acc = "";
+      }
+      return acc;
+    }, "");
+    return print;
+
+    /*let print = "";
     board.flat().forEach((cell) => {
-      if (cell.letter !== "") {
+      if (cell.letter !== "" && currentWorld !== correctWorld) {
         print = "You lose";
       } else {
         print = "";
       }
     });
-    return print;
+    return print;*/
   };
 
   return (
