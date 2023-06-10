@@ -1,7 +1,7 @@
 import dictionary from "../data/wordle-eng.json";
 
 export const isWord = (word) => {
-  return dictionary.map((elem) => elem.toLowerCase().indexOf(word) !== -1);
+  return dictionary.some((elem) => elem.toLowerCase().indexOf(word) >= 0);
 };
 
 export const getRandomWord = () => {
