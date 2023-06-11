@@ -53,7 +53,7 @@ export const Field: FC = () => {
   const shakeRowAnimate = (row: ICellState[]) => {
     return (isEnterActive &&
       JSON.stringify(row) === JSON.stringify(getCurrentRowBoard(board)) &&
-      !isWord(currentWord)) ||
+      !isWord(currentWord || "")) ||
       (isEnterActive &&
         (currentWord as string)?.length > 0 &&
         currentWord?.length !== WORLD_LENGTH &&
@@ -128,18 +128,17 @@ export const Field: FC = () => {
     } else {
       setBlockedInput(false);
     }
-
   }, [currentWord, prevWord, board]);
 
-// const notify = (word, wordLength, isWord) => {
-//     const message =
-//       word.length < wordLength
-//         ?toast.error("Not enough letters")
-//         : !isWord(word)
-//         ? toast.error("There is no such word in the dictionary, try another")
-//         : toast.error("This word already exists, try another");
-//         return message
-//   };
+  // const notify = (word, wordLength, isWord) => {
+  //     const message =
+  //       word.length < wordLength
+  //         ?toast.error("Not enough letters")
+  //         : !isWord(word)
+  //         ? toast.error("There is no such word in the dictionary, try another")
+  //         : toast.error("This word already exists, try another");
+  //         return message
+  //   };
 
   //логіка кліку на enter
   const handleEnter = () => {
@@ -158,11 +157,11 @@ export const Field: FC = () => {
       isRepeatedWord(currentWord || "", getWords(board))
     ) {
       setBlockedInput(true);
-      notify(currentWord, WORLD_LENGTH, isWord)
+      notify(currentWord, WORLD_LENGTH, isWord);
       setIsEnter(true);
       return;
     } else if ((currentWord || "")?.length < WORLD_LENGTH) {
-      notify(currentWord, WORLD_LENGTH, isWord)
+      notify(currentWord, WORLD_LENGTH, isWord);
     }
 
     //збереження даних, коли слово вірне
@@ -185,7 +184,7 @@ export const Field: FC = () => {
     }
 
     //встановлення коліру клітинки
-    if (currentWord?.length === WORLD_LENGTH && isWord(correctWorld)) {
+    if (currentWord?.length === WORLD_LENGTH && isWord(correctWorld || "")) {
       setPrevWord(currentWord);
       setBoard((prev) => {
         const nextState = deepCopyField(prev);
@@ -221,7 +220,7 @@ export const Field: FC = () => {
     }
 
     //збереження даних, коли слово не вірне
-    if (IsFilledField(board) && isWord(currentWord) && correctWorld !== currentWord) {
+    if (IsFilledField(board) && isWord(currentWord || "") && correctWorld !== currentWord) {
       setStats((prev) => ({
         games: prev.games + 1,
         won: prev.won,
@@ -253,7 +252,7 @@ export const Field: FC = () => {
     if (localStorage.getItem("result")) {
       setIsOpenModal(true);
     } else {
-      setIsOpenModal(false)
+      setIsOpenModal(false);
     }
   }, [localStorage.getItem("result")]);
 

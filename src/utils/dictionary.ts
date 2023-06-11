@@ -1,6 +1,6 @@
 import dictionary from "../data/wordle-eng.json";
 
-export const isWord = (word) => {
+export const isWord = (word: string) => {
   return dictionary.some((elem) => elem.toLowerCase().indexOf(word) >= 0);
 };
 
