@@ -1,5 +1,5 @@
 import {ReactNode} from 'react'
-import { TBoard } from '..'
+import { TBoard } from '../field'
 
 interface IField {
   setWin: React.Dispatch<React.SetStateAction<boolean>>
