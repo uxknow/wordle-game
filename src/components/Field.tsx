@@ -252,6 +252,8 @@ export const Field: FC = () => {
   useEffect(() => {
     if (localStorage.getItem("result")) {
       setIsOpenModal(true);
+    } else {
+      setIsOpenModal(false)
     }
   }, [localStorage.getItem("result")]);
 
@@ -304,7 +306,7 @@ export const Field: FC = () => {
   };
 
   return (
-    <>
+    <div className="content-container">
       <main>
         <div className="field">
           {board.map((row, idx) => (
@@ -327,6 +329,6 @@ export const Field: FC = () => {
         handleEnter={handleEnter}
       />
       <CustomModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
-    </>
+    </div>
   );
 };

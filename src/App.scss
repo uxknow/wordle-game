@@ -24,6 +24,8 @@ button {
   max-width: 1440px;
   margin: 0 auto;
   text-align: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
 svg {
@@ -47,17 +49,22 @@ svg {
   padding: 6px 32px;
 
   .header-icon {
-    font-size: 28px;
+    font-size: 1.7rem;
   }
 
   .header-title {
-    font-size: 32px;
+    font-size: 2rem;
     text-transform: uppercase;
   }
 
 }
 
 //modal
+
+.modal-body--open {
+  overflow: hidden;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -71,7 +78,7 @@ svg {
 
   &.after-open {
     opacity: 1;
-    & .modal {
+    .modal {
       transform: translate(-50%, -50%);
     }
   }
@@ -95,12 +102,7 @@ svg {
   border-radius: 6px;
   padding: 1rem 1.87rem 2.5rem;
   background: #fafafa;
-  transition: 0.6s ease;
-  font-size: 14px;
-  
-.modal-body--open {
-  overflow: hidden;
-}
+  transition: 0.6s;
 
 .modal-header {
   display: flex;
@@ -214,7 +216,7 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  font-size: 14px;
+  font-size: 0.8rem;
   margin-top: 14px;
 
 .row {
@@ -333,7 +335,7 @@ svg {
   justify-content: center;
   gap: 8px;
   padding: 0 10px;
-  color: #000;
+  color: rgba(0, 0, 0, 0.7);
   margin-bottom: 50px;
 
   .field-row {
@@ -385,31 +387,31 @@ svg {
   .cell:nth-child(1) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 0.8s;
+      animation-duration: 0.6s;
     } 
   } 
   .cell:nth-child(2) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 1s;
+      animation-duration: 0.8s;
     } 
   }
   .cell:nth-child(3) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 1.2s;
+      animation-duration: 1s;
     } 
   } 
   .cell:nth-child(4) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 1.4s;
+      animation-duration: 1.2s;
     } 
   } 
   .cell:nth-child(5) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 1.6s;
+      animation-duration: 1.4s;
     } 
   } 
 }
@@ -452,6 +454,21 @@ svg {
   html {
     font-size: 0.8rem;
   }
+
+  .header-container {
+    margin-bottom: 1.6rem;
+  }
+
+  .field {
+    margin-bottom: 1.6rem;
+  }
+
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 90%;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -469,7 +486,53 @@ svg {
       }
     }
   }
+
+  .overlay {
+    background: #ffffff;
+    backdrop-filter: none;
+
+    .modal {
+      top: 50%;
+      font-size: 16px;
+      width: 88%;
+      padding: 2rem 3rem 0 2rem;
+      background: #ffffff;
+      height: 100%;
+
+      .game-example-container {
+        font-size: 1rem;
+      }
+    }
+  }
+
 }
 
+@media screen and (max-width: 350px) {
+  .header-container {
+    .header-title {
+      font-size: 1.6rem;
+    }
+  }
+
+  .field {
+    box-sizing: border-box;
+    padding: 0 46px;
+    .cell {
+      height: 32px;
+    }
+  }
+
+  .keyboard {
+    button {
+      height: 2rem;
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-width: 1024px) {
+  #root {
+    height: auto;
+  }
+}
 
 

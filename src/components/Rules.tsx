@@ -4,7 +4,7 @@ import { IStatisticAndRulesProps } from "../common/types/statistic-rules";
 
 export const Rules: FC<IStatisticAndRulesProps> = ({ onClose }) => {
   return (
-    <div>
+    <div className="modal-content-container">
       <header className="modal-header">
         <h2 className="modal-title">Як грати?</h2>
         <button className="modal-close-btn" onClick={onClose}>

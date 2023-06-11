@@ -18,7 +18,7 @@ export const CountDown: FC = () => {
       const now = Date.now();
       const midnight = new Date();
       midnight.setHours(24, 0, 0, 0);
-      const diff = midnight.getTime() - now;
+      const diff =  midnight.getTime() - now
   
       if (diff <= 1000) {
         localStorage.removeItem('board')

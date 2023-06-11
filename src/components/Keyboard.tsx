@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import {HiOutlineBackspace} from 'react-icons/hi'
-import { buttons } from '../utils/keyboard';
-import { IKeyboardProps } from '../common/types/keyboard';
+import { FC } from "react";
+import { HiOutlineBackspace } from "react-icons/hi";
+import { buttons } from "../utils/keyboard";
+import { IKeyboardProps } from "../common/types/keyboard";
 
 export const Keyboard: FC<IKeyboardProps> = ({
   handleEnter,
@@ -18,7 +18,10 @@ export const Keyboard: FC<IKeyboardProps> = ({
           {buttons.map((row, idx) => (
             <div className="row-btn-block" key={idx}>
               {idx === 2 && (
-                <button onClick={handleEnter} className={`action-btn ${isEnterActive ? "active" : ""}`}>
+                <button
+                  onClick={handleEnter}
+                  className={`action-btn ${isEnterActive ? "active" : ""}`}
+                >
                   Enter
                 </button>
               )}
@@ -32,8 +35,11 @@ export const Keyboard: FC<IKeyboardProps> = ({
                 </button>
               ))}
               {idx === 2 && (
-                <button onClick={handleBackspace} className={`action-btn ${isBackspaceActive ? "active" : ""}`}>
-                  <HiOutlineBackspace size={26}/>
+                <button
+                  onClick={handleBackspace}
+                  className={`action-btn ${isBackspaceActive ? "active" : ""}`}
+                >
+                  <HiOutlineBackspace size={24} color="#000000"/>
                 </button>
               )}
             </div>

@@ -15,7 +15,7 @@ function App() {
       <Header />
       <Field />
       <ToastContainer
-        position="bottom-center"
+        position="top-center"
         hideProgressBar={true}
         autoClose={2000}
         theme="dark"
