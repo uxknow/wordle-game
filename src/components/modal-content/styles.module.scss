@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  justify-content: center;
+  min-width: 260px;
+
+  .title {
+    margin-left: auto;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .btn {
+    display: flex;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    margin-left: auto;
+  }
+}

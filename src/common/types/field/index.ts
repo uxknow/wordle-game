@@ -1,8 +1,14 @@
 import { KeyboardEvent } from "react";
 
+export enum  Variant {
+  correct = "correct",
+ 'semi-correct' = 'semi-correct',
+  incorrect = 'incorrect'
+} 
+
 export interface ICellState {
   letter: string;
-  variant?: "correct" | "semi-correct" | "incorrect";
+  variant?: keyof typeof Variant 
 };
 
 export type TBoard = ICellState[][];

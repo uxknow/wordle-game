@@ -1,10 +1,10 @@
 import { FC, MouseEvent, KeyboardEvent } from "react";
-import { Keyboard } from "./Keyboard";
+import { Keyboard } from "../keyboard";
 import { useEffect, useMemo, useState, useContext } from "react";
-import { getRandomWord, isWord } from "../utils/dictionary";
-import { WORLD_LENGTH } from "../common/consts";
-import { TBoard, ICellState, IStats } from "../common/types/field";
-import { IValueContext } from "../common/types/field-context";
+import { getRandomWord, isWord } from "../../utils/dictionary";
+import { WORD_LENGTH } from "../../common/consts";
+import { TBoard, ICellState, IStats, Variant } from "../../common/types/field";
+import { IValueContext } from "../../common/types/field-context";
 import {
   getEmptyBoard,
   getCurrCell,
@@ -14,13 +14,14 @@ import {
   isRepeatedWord,
   getInitAttempts,
   updateAttempts,
-} from "../utils/game-field";
-import { deepCopyField } from "../utils/deepCopyField";
-import { FieldContext } from "./FieldContextProvider";
-import { CustomModal } from "./Modal";
-import { decodedWord, encodedWord } from "../utils/encodeWord";
-import { Element } from "../common/types/field";
-import { notify } from "../utils/notify";
+} from "../../utils/game-field";
+import { deepCopyField } from "../../utils/deepCopyField";
+import { FieldContext } from "../field-context";
+import { CustomModal } from "../modal";
+import { decodedWord, encodedWord } from "../../utils/encodeWord";
+import { Element } from "../../common/types/field";
+import { notify } from "../../utils/notify";
+import classes from "./styles.module.scss";
 
 export const Field: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -29,7 +30,7 @@ export const Field: FC = () => {
   const [isEnterActive, setIsEnter] = useState(false);
   const [blockedInput, setBlockedInput] = useState(false);
   const [win, setWin] = useState(!!localStorage.getItem("result"));
-  const [correctWorld, setCorrectWord] = useState(
+  const [correctWord, setCorrectWord] = useState(
     decodedWord(localStorage.getItem("target") || "") || getRandomWord()
   );
   const [prevWord, setPrevWord] = useState(localStorage.getItem("lastWord") || "");
@@ -56,7 +57,7 @@ export const Field: FC = () => {
       !isWord(currentWord || "")) ||
       (isEnterActive &&
         (currentWord as string)?.length > 0 &&
-        currentWord?.length !== WORLD_LENGTH &&
+        currentWord?.length !== WORD_LENGTH &&
         JSON.stringify(row) === JSON.stringify(getCurrentRowBoard(board))) ||
       (isEnterActive &&
         isRepeatedWord(currentWord || "", getWords(board)) &&
@@ -68,7 +69,7 @@ export const Field: FC = () => {
   //додавання класу flip для поточної клітинки поля
   const FlipRowAnimate = (row: ICellState[]) => {
     return isEnterActive &&
-      currentWord?.length === WORLD_LENGTH &&
+      currentWord?.length === WORD_LENGTH &&
       JSON.stringify(row) === JSON.stringify(getCurrentRowBoard(board)) &&
       isWord(currentWord) &&
       !isRepeatedWord(currentWord || "", getWords(board))
@@ -114,14 +115,14 @@ export const Field: FC = () => {
 
   //блокування вводу
   useEffect(() => {
-    console.log(correctWorld);
+    console.log(correctWord);
 
-    if (currentWord === correctWorld) {
+    if (currentWord === correctWord) {
       setBlockedInput(true);
       return;
     }
 
-    if (currentWord?.length === WORLD_LENGTH && prevWord !== currentWord) {
+    if (currentWord?.length === WORD_LENGTH && prevWord !== currentWord) {
       setBlockedInput(true);
     } else if (isRepeatedWord(currentWord || "", getWords(board))) {
       setBlockedInput(true);
@@ -129,16 +130,6 @@ export const Field: FC = () => {
       setBlockedInput(false);
     }
   }, [currentWord, prevWord, board]);
-
-  // const notify = (word, wordLength, isWord) => {
-  //     const message =
-  //       word.length < wordLength
-  //         ?toast.error("Not enough letters")
-  //         : !isWord(word)
-  //         ? toast.error("There is no such word in the dictionary, try another")
-  //         : toast.error("This word already exists, try another");
-  //         return message
-  //   };
 
   //логіка кліку на enter
   const handleEnter = () => {
@@ -151,21 +142,21 @@ export const Field: FC = () => {
       return;
     }
 
-    //Повідомлення, що такого слова нема в словарі/недостатньо букв
+    //блокування вводу, якщо  такого слова нема, або недостатньо букв
     if (
-      (currentWord?.length === WORLD_LENGTH && !isWord(currentWord)) ||
+      (currentWord?.length === WORD_LENGTH && !isWord(currentWord)) ||
       isRepeatedWord(currentWord || "", getWords(board))
     ) {
       setBlockedInput(true);
-      notify(currentWord, WORLD_LENGTH, isWord);
+      notify(currentWord, WORD_LENGTH, isWord);
       setIsEnter(true);
       return;
-    } else if ((currentWord || "")?.length < WORLD_LENGTH) {
-      notify(currentWord, WORLD_LENGTH, isWord);
+    } else if ((currentWord || "")?.length < WORD_LENGTH) {
+      notify(currentWord, WORD_LENGTH, isWord);
     }
 
     //збереження даних, коли слово вірне
-    if (currentWord === correctWorld) {
+    if (currentWord === correctWord) {
       setWin(true);
       setBoard((prev) => {
         const newState = deepCopyField(prev);
@@ -181,52 +172,56 @@ export const Field: FC = () => {
         attempts: updateAttempts(getWords(board), prev.attempts),
       }));
       localStorage.setItem("result", "won");
+      localStorage.setItem('time', new Date().setHours(24,0,0,0).toString())
     }
 
     //встановлення коліру клітинки
-    if (currentWord?.length === WORLD_LENGTH && isWord(correctWorld || "")) {
+    if (currentWord?.length === WORD_LENGTH && isWord(correctWord || "")) {
       setPrevWord(currentWord);
       setBoard((prev) => {
         const nextState = deepCopyField(prev);
         const currRow = getCurrentRowBoard(nextState);
 
-        const correctLetters = (correctWorld as string).split("");
+        const correctLetters = (correctWord as string).split("");
         const correctLetterCount = {};
 
-        // Рахуємо кількість кожної літери в correctWorld
         correctLetters.forEach((letter) => {
           correctLetterCount[letter] = (correctLetterCount[letter] || 0) + 1;
         });
 
         currRow?.forEach((cell, idx) => {
-          if (correctWorld && cell.letter === correctWorld[idx]) {
-            cell.variant = "correct";
-            correctLetterCount[cell.letter] -= 1;
-          } else if (
-            correctWorld &&
-            correctWorld.includes(cell.letter) &&
+          if (
+            correctWord &&
+            cell.letter === correctWord[idx] &&
             correctLetterCount[cell.letter] > 0
           ) {
+            cell.variant = "correct";
+            correctLetterCount[cell.letter] -= 1;
+          }
+        });
+
+        currRow?.forEach((cell) => {
+          if (correctWord?.includes(cell.letter) && correctLetterCount[cell.letter] > 0) {
             cell.variant = "semi-correct";
             correctLetterCount[cell.letter] -= 1;
-          } else {
-            cell.variant = "incorrect";
           }
+          if (!cell.variant) cell.variant = "incorrect";
         });
         return nextState;
       });
-      localStorage.setItem("target", encodedWord(correctWorld || ""));
+      localStorage.setItem("target", encodedWord(correctWord || ""));
       localStorage.setItem("lastWord", currentWord);
     }
 
     //збереження даних, коли слово не вірне
-    if (IsFilledField(board) && isWord(currentWord || "") && correctWorld !== currentWord) {
+    if (IsFilledField(board) && isWord(currentWord || "") && correctWord !== currentWord) {
       setStats((prev) => ({
         games: prev.games + 1,
         won: prev.won,
         attempts: prev.attempts,
       }));
       localStorage.setItem("result", "lost");
+      localStorage.setItem('time', new Date().setHours(24,0,0,0).toString())
     }
 
     setBlockedInput(false);
@@ -242,7 +237,7 @@ export const Field: FC = () => {
 
   //встановлюємо boards в LS
   useEffect(() => {
-    if (isEnterActive && currentWord?.length === WORLD_LENGTH && isWord(currentWord)) {
+    if (isEnterActive && currentWord?.length === WORD_LENGTH && isWord(currentWord)) {
       localStorage.setItem("board", JSON.stringify(board));
     }
   }, [board]);
@@ -305,13 +300,18 @@ export const Field: FC = () => {
   };
 
   return (
-    <div className="content-container">
+    <div className={classes["content-container"]}>
       <main>
-        <div className="field">
+        <div className={classes.field}>
           {board.map((row, idx) => (
-            <div key={idx} className={`field-row ${shakeRowAnimate(row)}`}>
+            <div key={idx} className={`${classes.row} ${classes[shakeRowAnimate(row)]}`}>
               {row.map((cell, i) => (
-                <div className={`cell ${cell.variant} ${FlipRowAnimate(row)}`} key={i}>
+                <div
+                  className={`${classes.cell} ${classes[cell.variant as Variant]} ${
+                    classes[FlipRowAnimate(row)]
+                  }`}
+                  key={i}
+                >
                   {cell.letter}
                 </div>
               ))}
@@ -331,3 +331,5 @@ export const Field: FC = () => {
     </div>
   );
 };
+
+// Помоги решить , уменя проблема, когда вводишь буквы, то проверка не правильна , получается если вначале попадается буква , которая есть в слове но не на  правильной позиции то буква получает вариант 'semi-correct', но если  ту же букву дальше поставить в правиьлном варианте, то вариант 'semi-correct' Должен убраться на 'incorrect' так ка в слове такая буква одна и она уже отгадана правильно

@@ -1,0 +1,87 @@
+@import '../../../colors.scss';
+
+.statistic-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .text-msg {
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 8px 16px;
+
+    &.msg--green {
+      background: $correct-word-color;
+    }
+
+    &.msg--red {
+      background: $lose-msg-color;
+    }
+  }
+
+  .stat-block {
+    display: flex;
+    justify-content: space-around;
+    gap: 12px;
+
+    .stat-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.75rem;
+      color: $secondary-color-dark;
+
+      .stat-value {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .graph-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .graph-title {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .graph-row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      .graph-label{
+        width: 1rem;
+      }
+
+      .bar-container{
+        width: 100%;
+
+        .graph-line {
+          color: $primary-color-light;
+          padding: 2px 6px;
+          text-align: right;
+          width: 10px;
+
+        &.line--green {
+          background: $correct-word-color;
+        }
+
+        &.line--gray {
+          background: $incorrect-word-color;
+        }
+      }
+    }
+  }
+}
+
+  .countdown {
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.1rem;
+  }
+}

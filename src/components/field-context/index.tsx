@@ -1,5 +1,5 @@
 import { FC, createContext, useState } from "react";
-import { IFieldContextProviderProps } from "../common/types/field-context";
+import { IFieldContextProviderProps } from "../../common/types/field-context";
 
 export const FieldContext = createContext({});
 

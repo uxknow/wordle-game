@@ -1,8 +1,9 @@
 import { FC, useRef, useState, MouseEvent } from "react";
 import { MdOutlineHelpOutline } from "react-icons/md";
 import { IoMdStats } from "react-icons/io";
-import { CustomModal } from "./Modal";
-import { ModalContent } from "../common/types/modal";
+import { CustomModal } from "../modal";
+import { ModalContent } from "../../common/types/modal";
+import classes from './styles.module.scss'
 
 export const Header: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -27,15 +28,17 @@ export const Header: FC = () => {
   };
 
   return (
-    <div className="header-container">
+    <div className={classes.container}>
       <button ref={ref} onClick={openModal}>
-        <MdOutlineHelpOutline className="header-icon icons" />
+        <MdOutlineHelpOutline className={classes.icon} />
       </button>
       <CustomModal isOpen={isOpenModal} onClose={closeModal} сontent={сontent} />
-      <h1 className="header-title">Wordle</h1>
-      <button onClick={openModal}>
-        <IoMdStats className="header-icon icons" />
-      </button>
+      <h1 className={classes.title}>Wordle</h1>
+      <div>
+        <button onClick={openModal}>
+          <IoMdStats className={classes.icon} />
+        </button>
+      </div>
     </div>
   );
 };

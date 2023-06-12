@@ -1,0 +1,34 @@
+@import '../../colors.scss';
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid $secondary-color-light;
+  margin-bottom: 50px;
+  padding: 6px 32px;
+
+  .icon {
+    font-size: 1.7rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    text-transform: uppercase;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    margin-bottom: 1.6rem;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .container {
+    .title {
+      font-size: 1.6rem;
+    } 
+  }
+}

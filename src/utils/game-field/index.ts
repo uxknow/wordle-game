@@ -1,4 +1,4 @@
-import { WORLD_LENGTH, ROWS } from "../../common/consts";
+import { WORD_LENGTH, ROWS } from "../../common/consts";
 import { TBoard, ICellState, TAttempts } from "../../common/types/field";
 
 //порожня клітинка
@@ -11,7 +11,7 @@ const range = (n: number) => [...new Array(n).keys()];
 
 //Порожнє ігрове поле
 export const getEmptyBoard = () => {
-  return range(ROWS).map(() => range(WORLD_LENGTH).map(getEmptyCell));
+  return range(ROWS).map(() => range(WORD_LENGTH).map(getEmptyCell));
 };
 
 //Поточна клітинка
@@ -47,7 +47,7 @@ export const getWords = (board: TBoard) => {
 
 //Перевірка на повторення слова
 export const isRepeatedWord = (currentWord: string, words: string[]) => {
-    return  currentWord?.length === WORLD_LENGTH && words.filter(word => word === currentWord).length > 1;
+    return  currentWord?.length === WORD_LENGTH && words.filter(word => word === currentWord).length > 1;
 }
 
 //Начальний об'єкт для зберігання кількості спроб вгаданого слова

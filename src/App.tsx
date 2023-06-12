@@ -1,7 +1,7 @@
 import { ToastContainer } from "react-toastify";
-import { Field } from "./components/Field";
-import { FieldContextProvider } from "./components/FieldContextProvider";
-import { Header } from "./components/Header";
+import { Field } from './components/field';
+import { FieldContextProvider } from "./components/field-context";
+import { Header } from './components/header'
 import Modal from "react-modal";
 
 import "./App.scss";
