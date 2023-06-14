@@ -1,6 +1,5 @@
-import { FC, MouseEvent, KeyboardEvent } from "react";
+import { FC, MouseEvent, KeyboardEvent, useEffect, useMemo, useState, useContext } from "react";
 import { Keyboard } from "../keyboard";
-import { useEffect, useMemo, useState, useContext } from "react";
 import { getRandomWord, isWord } from "../../utils/dictionary";
 import { WORD_LENGTH } from "../../common/consts";
 import { TBoard, ICellState, IStats, Variant } from "../../common/types/field";
@@ -21,7 +20,10 @@ import { CustomModal } from "../modal";
 import { decodedWord, encodedWord } from "../../utils/encodeWord";
 import { Element } from "../../common/types/field";
 import { notify } from "../../utils/notify";
-import classes from "./styles.module.scss";
+import classesLight from "./light.module.scss";
+import classesDark from "./dark.module.scss";
+import { ThemeContext } from "../themeContext";
+import { IThemeContext } from "../../common/types/theme-context";
 
 export const Field: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -49,6 +51,9 @@ export const Field: FC = () => {
     : null;
   const initialStats: IStats = parsedStats || { games: 0, won: 0, attempts: getInitAttempts() };
   const [stats, setStats] = useState<IStats>(initialStats);
+
+  const { theme: themeName } = useContext(ThemeContext) as IThemeContext;
+  const theme = themeName === "dark" ? classesDark : classesLight;
 
   //додавання класу shake до поточного рядку поля
   const shakeRowAnimate = (row: ICellState[]) => {
@@ -172,7 +177,7 @@ export const Field: FC = () => {
         attempts: updateAttempts(getWords(board), prev.attempts),
       }));
       localStorage.setItem("result", "won");
-      localStorage.setItem('time', new Date().setHours(24,0,0,0).toString())
+      localStorage.setItem("time", new Date().setHours(24, 0, 0, 0).toString());
     }
 
     //встановлення коліру клітинки
@@ -221,7 +226,7 @@ export const Field: FC = () => {
         attempts: prev.attempts,
       }));
       localStorage.setItem("result", "lost");
-      localStorage.setItem('time', new Date().setHours(24,0,0,0).toString())
+      localStorage.setItem("time", new Date().setHours(24, 0, 0, 0).toString());
     }
 
     setBlockedInput(false);
@@ -300,15 +305,15 @@ export const Field: FC = () => {
   };
 
   return (
-    <div className={classes["content-container"]}>
+    <div className={theme["content-container"]}>
       <main>
-        <div className={classes.field}>
+        <div className={theme.field}>
           {board.map((row, idx) => (
-            <div key={idx} className={`${classes.row} ${classes[shakeRowAnimate(row)]}`}>
+            <div key={idx} className={`${theme.row} ${theme[shakeRowAnimate(row)]}`}>
               {row.map((cell, i) => (
                 <div
-                  className={`${classes.cell} ${classes[cell.variant as Variant]} ${
-                    classes[FlipRowAnimate(row)]
+                  className={`${theme.cell} ${theme[cell.variant as Variant]} ${
+                    theme[FlipRowAnimate(row)]
                   }`}
                   key={i}
                 >

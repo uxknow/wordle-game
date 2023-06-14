@@ -1,15 +1,19 @@
-import { FC, useRef, useState, MouseEvent } from "react";
-import { MdOutlineHelpOutline } from "react-icons/md";
+import { FC, useRef, useState, MouseEvent, useEffect, useContext } from "react";
+import { MdOutlineHelpOutline, MdDarkMode, MdLightMode } from "react-icons/md";
 import { IoMdStats } from "react-icons/io";
 import { CustomModal } from "../modal";
 import { ModalContent } from "../../common/types/modal";
-import classes from './styles.module.scss'
+import classes from "./styles.module.scss";
+import { ThemeContext } from "../themeContext";
+import { IThemeContext } from "../../common/types/theme-context";
 
 export const Header: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [сontent, setContent] = useState<ModalContent.rules | ModalContent.statistic>(
     ModalContent.statistic
   );
+
+  const { theme, toggleTheme } = useContext(ThemeContext) as IThemeContext;
 
   const ref = useRef<HTMLButtonElement>(null);
 
@@ -20,7 +24,6 @@ export const Header: FC = () => {
       setContent(ModalContent.statistic);
     }
     setIsOpenModal(true);
-
   };
 
   const closeModal = () => {
@@ -34,9 +37,16 @@ export const Header: FC = () => {
       </button>
       <CustomModal isOpen={isOpenModal} onClose={closeModal} сontent={сontent} />
       <h1 className={classes.title}>Wordle</h1>
-      <div>
+      <div className={classes["btn-block"]}>
         <button onClick={openModal}>
           <IoMdStats className={classes.icon} />
+        </button>
+        <button onClick={toggleTheme}>
+          {theme === "dark" ? (
+            <MdDarkMode className={classes.icon} />
+          ) : (
+            <MdLightMode className={classes.icon} />
+          )}
         </button>
       </div>
     </div>

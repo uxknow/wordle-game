@@ -10,7 +10,8 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: $overlay-color;
+  color: $text-color-dark;
+  background-color: $overlay-color-dark;
   backdrop-filter: blur(3px);
   opacity: 0;
   transition: opacity 0.6s ease;
@@ -40,13 +41,13 @@
   width: 80%;
   border-radius: 6px;
   padding: 1rem 1.87rem 2.5rem;
-  background: $primary-color-light;
+  background: $bg-color-dark;
   transition: 0.6s;
 }
 
 @media screen and (max-width: 550px) {
   .overlay {
-    background: $primary-color-light;
+    background: $bg-color-dark;
     backdrop-filter: none;
 
     .modal {

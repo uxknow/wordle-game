@@ -27,9 +27,9 @@ useEffect(() => {
       localStorage.removeItem('target')
       localStorage.removeItem('lastWord')
       setCountdown("");
-      fieldInfo.setCorrectWord(getRandomWord());
-      fieldInfo.setBoard(getEmptyBoard());
-      fieldInfo.setWin(false);
+      fieldInfo?.setCorrectWord(getRandomWord());
+      fieldInfo?.setBoard(getEmptyBoard());
+      fieldInfo?.setWin(false);
     } else {
       const remainingTime = new Date(diff - 1000);
       const hours = remainingTime.getUTCHours();

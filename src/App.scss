@@ -13,9 +13,12 @@ a {
   }
 }
 
+
 body {
   font-family: 'Montserrat', sans-serif;
+  color: $primary-color-dark;
 }
+
 
 button {
   border: none;
@@ -27,18 +30,35 @@ button {
   margin: 0 auto;
   text-align: center;
   height: 100vh;
- // background: #000218;
   overflow: hidden;
 }
 
 svg {
-  color: #999999;
+  color: $icon-color;
     cursor: pointer;
-    transition: .4s ease;
+    transition: .3s ease;
 
     &:hover {
-      color: #000;
+      color: $primary-color-dark;
     }
+}
+
+.dark {
+  background: $bg-color-dark;
+  color: $text-color-dark;
+
+  svg {
+    &:hover {
+      color: $primary-color-light;
+    }
+  }
+
+  a {
+    &:hover {
+      opacity: 1;
+      color: $primary-color-light;
+    }
+  }
 }
 
 

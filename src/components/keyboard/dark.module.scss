@@ -19,7 +19,7 @@
         padding: 0 12px;
 
         svg {
-        color: $primary-color-dark;
+        color: $text-color-dark;
         }
       }
     }
@@ -43,19 +43,19 @@
     align-items: center;
     height: 3rem;
     font-weight: 600;
-    background: $secondary-color-light;
-    color: $primary-color-dark;
+    background: $secondary-color-dark;
+    color: $text-color-dark;
     border: 1px solid transparent;
     border-radius: 4px;
     text-transform: uppercase;
     cursor: pointer;
 
     &.active {
-      border: 1.6px solid #05c905;
+      border: 1px solid $active-keyboard-color-dark;
     }
 
     &:hover {
-      background: $secondary-color-dark;
+      opacity: 0.8;
     }
   }
 }

@@ -5,16 +5,21 @@ import { IStats } from "../../../common/types/field";
 import { IStatisticAndRulesProps } from "../../../common/types/statistic-rules";
 import { getWidthToGraphBar } from "../../../utils/statistic";
 import { decodedWord } from "../../../utils/encodeWord";
-import classes from "./styles.module.scss";
-import headerClasses from '../styles.module.scss'
+import classesLight from "./light.module.scss";
+import classesDark from './dark.module.scss';
+import headerClasses from "../styles.module.scss";
 
 export const Statistic: FC<IStatisticAndRulesProps> = ({ onClose }) => {
-  const { games, won, attempts } = JSON.parse(localStorage.getItem("stats") as string) as IStats;
+  const stats = JSON.parse(localStorage.getItem("stats") as string) as IStats;
+  const { games, won, attempts } = stats || {};
   const percent = won ? ((won * 100) / games).toFixed(1) : 0;
   const word = decodedWord(localStorage.getItem("target") as string);
 
   //Отримуємо ширину для кожного графік-бару
-  const width = getWidthToGraphBar(attempts);
+  const width = getWidthToGraphBar(attempts) as number[];
+
+  const theme = localStorage.getItem('theme') === 'dark' ? classesDark : classesLight
+
 
   return (
     <>
@@ -24,48 +29,52 @@ export const Statistic: FC<IStatisticAndRulesProps> = ({ onClose }) => {
           <IoMdClose />
         </button>
       </header>
-      <main className={classes["statistic-block"]}>
+      <main className={theme["statistic-block"]}>
         {localStorage.getItem("result") === "won" && (
-          <p className={`${classes["text-msg"]} ${classes["msg--green"]}`}>
+          <p className={`${theme["text-msg"]} ${theme["msg--green"]}`}>
             Вітаю! Ви виграли, так тримати.
           </p>
         )}
         {localStorage.getItem("result") === "lost" && (
-          <p className={`${classes["text-msg"]} ${classes["msg--red"]}`}>
+          <p className={`${theme["text-msg"]} ${theme["msg--red"]}`}>
             На жаль ви програли, можливо наступного разу пощастить. Правильне слово -{" "}
             <b>{word.toUpperCase()}</b>
           </p>
         )}
-        <div className={classes["stat-block"]}>
-          <div className={classes["stat-col"]}>
-            <span className={classes["stat-value"]}>{games}</span>
+        <div className={theme["stat-block"]}>
+          <div className={theme["stat-col"]}>
+            <span className={theme["stat-value"]}>{games || 0}</span>
             <span>Зіграно</span>
           </div>
-          <div className={classes["stat-col"]}>
-            <span className={classes["stat-value"]}>{percent}%</span>
+          <div className={theme["stat-col"]}>
+            <span className={theme["stat-value"]}>{percent}%</span>
             <span>Виграно {won}</span>
           </div>
         </div>
-        <div className={classes["graph-block"]}>
-          <h2 className={classes["graph-title"]}>Виграшні спроби</h2>
-          {Object.entries(attempts).map(([attempt, count], i) => (
-            <div key={attempt} className={classes["graph-row"]}>
-              <span className={classes["graph-label"]}>{attempt}</span>
-              <div className={classes["bar-container"]}>
-                <div
-                  className={`${classes["graph-line"]} ${
-                    count > 0 ? classes["line--green"] : classes["line--gray"]
-                  }`}
-                  style={{ width: `${width[i] > 0 ? width[i] + "%" : ""}` }}
-                >
-                  {count}
+        <div className={theme["graph-block"]}>
+          <h2 className={theme["graph-title"]}>Виграшні спроби</h2>
+          {attempts ? (
+            Object.entries(attempts).map(([attempt, count], i) => (
+              <div key={attempt} className={theme["graph-row"]}>
+                <span className={theme["graph-label"]}>{attempt}</span>
+                <div className={theme["bar-container"]}>
+                  <div
+                    className={`${theme["graph-line"]} ${
+                      count > 0 ? theme["line--green"] : theme["line--gray"]
+                    }`}
+                    style={{ width: `${width[i] > 0 ? width[i] + "%" : ""}` }}
+                  >
+                    {count}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className={theme['nodata-msg']}>Немає данних</p>
+          )}
         </div>
         {localStorage.getItem("result") && (
-          <p className={classes.countdown}>
+          <p className={theme.countdown}>
             Наступне слово через <CountDown />
           </p>
         )}
