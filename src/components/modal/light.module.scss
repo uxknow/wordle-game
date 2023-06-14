@@ -13,7 +13,7 @@
   background-color: $overlay-color-light;
   backdrop-filter: blur(3px);
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.4s ease;
 
   &.after-open {
     opacity: 1;

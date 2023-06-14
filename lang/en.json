@@ -1,0 +1,19 @@
+{
+  "rules": {
+    "title": "How to play?",
+    "description": "Guess the word in six tries. Each guess must be a dictionary noun, but not a proper name. Press enter to confirm the attempt. After each attempt, the color will tell you how close you were:",
+    "words": [["style", "The letter S is in the word exactly in this place"],
+      ["color", "The letter L is in the word, but not in this place"],
+      ["night", "None of these letters are in the word"]],
+      "info": "A new challenge every day!",
+      "footerText": "Original game: WORDLE © Josh Wardle, 2021-22"
+  },
+  "statistic": {
+    "title": "Statistics",
+    "endGameMsg": ["Congratulations! You won, keep it up.", "Unfortunately you lost, maybe next time you will be lucky. The correct word is "],
+    "statName": ["Played", "Won"],
+    "graphTitle": "Winning attempts",
+    "noDataMsg": "No data available",
+    "countdownText": "The next word is through"
+  }
+}

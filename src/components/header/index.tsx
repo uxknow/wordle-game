@@ -1,4 +1,4 @@
-import { FC, useRef, useState, MouseEvent, useEffect, useContext } from "react";
+import { FC, useRef, useState, MouseEvent, useContext } from "react";
 import { MdOutlineHelpOutline, MdDarkMode, MdLightMode } from "react-icons/md";
 import { IoMdStats } from "react-icons/io";
 import { CustomModal } from "../modal";

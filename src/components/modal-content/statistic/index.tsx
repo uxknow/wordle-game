@@ -1,10 +1,12 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { IoMdClose } from "react-icons/io";
 import { CountDown } from "../../countdown";
 import { IStats } from "../../../common/types/field";
 import { IStatisticAndRulesProps } from "../../../common/types/statistic-rules";
 import { getWidthToGraphBar } from "../../../utils/statistic";
 import { decodedWord } from "../../../utils/encodeWord";
+import { ThemeContext } from "../../themeContext";
+import { IThemeContext } from "../../../common/types/theme-context";
 import classesLight from "./light.module.scss";
 import classesDark from './dark.module.scss';
 import headerClasses from "../styles.module.scss";
@@ -18,8 +20,9 @@ export const Statistic: FC<IStatisticAndRulesProps> = ({ onClose }) => {
   //Отримуємо ширину для кожного графік-бару
   const width = getWidthToGraphBar(attempts) as number[];
 
-  const theme = localStorage.getItem('theme') === 'dark' ? classesDark : classesLight
-
+  const {theme: themeName} = useContext(ThemeContext) as IThemeContext
+  const theme = themeName === 'dark' ? classesDark : classesLight
+ 
 
   return (
     <>

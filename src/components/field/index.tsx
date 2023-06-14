@@ -94,6 +94,19 @@ export const Field: FC = () => {
     return word;
   }, [board]);
 
+  //встановлюємо isEnterActive в false, щоб не було анімації
+  useEffect(() => {
+    const id = setTimeout(() => {
+      if (currentWord?.length === WORD_LENGTH) {
+        setIsEnter(false);
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [isEnterActive]);
+
   //подія на клік клавіатури
   useEffect(() => {
     const handleKeyUp = (e: KeyboardEvent | MouseEvent<HTMLDivElement>) => {
@@ -103,10 +116,9 @@ export const Field: FC = () => {
       if ((e as KeyboardEvent).key === "Enter") {
         handleEnter();
       }
-
       if (
         (e as KeyboardEvent).code.startsWith("Key") &&
-        /^[a-zA-Z]+$/.test((e as KeyboardEvent).key)
+        (e as KeyboardEvent).key.match(/^[a-zA-Z]$/)
       ) {
         (e.target as HTMLElement).id = (e as KeyboardEvent).key;
         handlePressedClick(e as MouseEvent<HTMLDivElement>);
@@ -206,7 +218,11 @@ export const Field: FC = () => {
         });
 
         currRow?.forEach((cell) => {
-          if (correctWord?.includes(cell.letter) && correctLetterCount[cell.letter] > 0) {
+          if (
+            correctWord?.includes(cell.letter) &&
+            cell.variant !== "correct" &&
+            correctLetterCount[cell.letter] > 0
+          ) {
             cell.variant = "semi-correct";
             correctLetterCount[cell.letter] -= 1;
           }
@@ -336,5 +352,3 @@ export const Field: FC = () => {
     </div>
   );
 };
-
-// Помоги решить , уменя проблема, когда вводишь буквы, то проверка не правильна , получается если вначале попадается буква , которая есть в слове но не на  правильной позиции то буква получает вариант 'semi-correct', но если  ту же букву дальше поставить в правиьлном варианте, то вариант 'semi-correct' Должен убраться на 'incorrect' так ка в слове такая буква одна и она уже отгадана правильно

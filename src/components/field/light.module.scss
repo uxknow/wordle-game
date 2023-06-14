@@ -59,31 +59,31 @@
   .cell:nth-child(1) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 0.6s;
+      animation-duration: 0.2s;
     } 
   } 
   .cell:nth-child(2) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 0.8s;
+      animation-duration: 0.4s;
     } 
   }
   .cell:nth-child(3) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 1s;
+      animation-duration: 0.6s;
     } 
   } 
   .cell:nth-child(4) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 1.2s;
+      animation-duration: 0.8s;
     } 
   } 
   .cell:nth-child(5) {
     &.flip-cell {
       animation: flip 1s ease-in-out;
-      animation-duration: 1.4s;
+      animation-duration: 1s;
     } 
   } 
 }
