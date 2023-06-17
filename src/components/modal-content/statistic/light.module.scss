@@ -12,11 +12,11 @@
     padding: 8px 16px;
 
     &.msg--green {
-      background: $win-msg-color;
+      background: $win-msg-color-light;
     }
 
     &.msg--red {
-      background: $lose-msg-color;
+      background: $lose-msg-color-light;
     }
   }
 
@@ -83,6 +83,9 @@
 }
 
   .countdown {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     font-weight: 600;
     text-transform: uppercase;
     text-align: center;

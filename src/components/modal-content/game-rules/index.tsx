@@ -1,61 +1,63 @@
 import { FC } from "react";
 import { IoMdClose } from "react-icons/io";
-import { IStatisticAndRulesProps } from "../../../common/types/statistic-rules";
+import { IModalContentProps } from "../../../common/types/modal-content";
+import { useTranslation } from "react-i18next";
+import { parseBoldText } from "../../../utils/i18n/parseText";
 import classes from "./styles.module.scss";
-import headerClasses from '../styles.module.scss'
+import headerClasses from "../styles.module.scss";
 
-export const Rules: FC<IStatisticAndRulesProps> = ({ onClose }) => {
+export const Rules: FC<IModalContentProps> = ({ onClose }) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <header className={headerClasses.header}>
-        <h2 className={headerClasses.title}>Як грати?</h2>
+        <h2 className={headerClasses.title}>{t("rules.title")}</h2>
         <button className={headerClasses.btn} onClick={onClose}>
           <IoMdClose />
         </button>
       </header>
       <main>
-        <p>
-          <b>Вгадайте слово з шести спроб.</b> Кожна здогадка мусить бути словниковим іменником, але
-          не власною назвою. Натисніть кнопку <b>enter</b>, щоб підтвердити спробу. Після кожної
-          спроби колір підкаже, наскільки близько ви були:
-        </p>
+        {parseBoldText(t("rules.description"))}
         <div className={classes["rules-block"]}>
           <div className={classes.row}>
             <div className={classes["row-word"]}>
-              <div className={classes["word-char"]}>с</div>
-              <div className={classes["word-char"]}>т</div>
-              <div className={classes["word-char"]}>и</div>
-              <div className={classes["word-char"]}>л</div>
-              <div className={classes["word-char"]}>ь</div>
+              {t("rules.wordExample1")
+                .split("")
+                .map((char, idx) => (
+                  <div key={idx} className={classes["word-char"]}>
+                    {char}
+                  </div>
+                ))}
             </div>
-            <p className={classes["row-text"]}>
-              Буква <b>С</b> є в слові саме в цьому місці
-            </p>
+            <p className={classes["row-text"]}>{parseBoldText(t("rules.wordDesc1"))}</p>
           </div>
           <div className={classes.row}>
             <div className={classes["row-word"]}>
-              <div className={classes["word-char"]}>к</div>
-              <div className={classes["word-char"]}>о</div>
-              <div className={classes["word-char"]}>л</div>
-              <div className={classes["word-char"]}>і</div>
-              <div className={classes["word-char"]}>р</div>
+              {t("rules.wordExample2")
+                .split("")
+                .map((char, idx) => (
+                  <div key={idx} className={classes["word-char"]}>
+                    {char}
+                  </div>
+                ))}
             </div>
-            <p className={classes["row-text"]}>
-              Буква <b>Л</b> є в слові, але не в цьому місці
-            </p>
+            <p className={classes["row-text"]}>{parseBoldText(t("rules.wordDesc2"))}</p>
           </div>
           <div className={classes.row}>
             <div className={classes["row-word"]}>
-              <div className={classes["word-char"]}>р</div>
-              <div className={classes["word-char"]}>а</div>
-              <div className={classes["word-char"]}>н</div>
-              <div className={classes["word-char"]}>о</div>
-              <div className={classes["word-char"]}>к</div>
+              {t("rules.wordExample3")
+                .split("")
+                .map((char, idx) => (
+                  <div key={idx} className={classes["word-char"]}>
+                    {char}
+                  </div>
+                ))}
             </div>
-            <p className={classes["row-text"]}>Жодної з цих букв немає в слові</p>
+            <p className={classes["row-text"]}>{parseBoldText(t("rules.wordDesc3"))}</p>
           </div>
           <p>
-            <b>Нове завдання щодня!</b>
+            <b>{t("rules.info")}</b>
           </p>
         </div>
         <br />
@@ -64,7 +66,7 @@ export const Rules: FC<IStatisticAndRulesProps> = ({ onClose }) => {
       <footer>
         <br />
         <p>
-          Оригінальна гра:{" "}
+          {t("rules.footerText")}{" "}
           <a
             href="https://www.nytimes.com/games/wordle/index.html"
             target="_blank"

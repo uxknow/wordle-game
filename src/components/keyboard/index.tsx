@@ -2,10 +2,10 @@ import { FC, useContext } from "react";
 import { HiOutlineBackspace } from "react-icons/hi";
 import { buttons } from "../../utils/keyboard";
 import { IKeyboardProps } from "../../common/types/keyboard";
-import classesLight from './light.module.scss'
-import classesDark from './dark.module.scss'
 import { ThemeContext } from "../themeContext";
 import { IThemeContext } from "../../common/types/theme-context";
+import classesLight from './light.module.scss'
+import classesDark from './dark.module.scss'
 
 export const Keyboard: FC<IKeyboardProps> = ({
   handleEnter,

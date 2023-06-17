@@ -1,10 +1,11 @@
 export enum ModalContent {
   rules = 'rules',
-  statistic = 'statistic'
+  statistic = 'statistic',
+  settings = 'settings'
 }
 
 export interface ICustomModalProps {
   isOpen: boolean;
   onClose: () => void;
-  сontent?: keyof typeof ModalContent;
+  content?: keyof typeof ModalContent;
 }

@@ -1,0 +1,32 @@
+@import '../../../colors.scss';
+
+.settings-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .select {
+      border: 1px solid $secondary-color-dark;
+      border-radius: 2px;
+      padding: 4px 8px;
+      color: $text-color-dark;
+      background: $secondary-color-dark;
+      font-weight: 700;
+      letter-spacing: 0.1rem;
+      outline: none;
+
+      .option {
+        font-weight: 700;
+      }
+  }
+
+  .icon {
+    font-size: 1.7rem;
+  }
+}
+}

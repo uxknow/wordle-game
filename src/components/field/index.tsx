@@ -20,10 +20,11 @@ import { CustomModal } from "../modal";
 import { decodedWord, encodedWord } from "../../utils/encodeWord";
 import { Element } from "../../common/types/field";
 import { notify } from "../../utils/notify";
-import classesLight from "./light.module.scss";
-import classesDark from "./dark.module.scss";
 import { ThemeContext } from "../themeContext";
 import { IThemeContext } from "../../common/types/theme-context";
+import { ModalContent } from "../../common/types/modal";
+import classesLight from "./light.module.scss";
+import classesDark from "./dark.module.scss";
 
 export const Field: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -96,16 +97,10 @@ export const Field: FC = () => {
 
   //встановлюємо isEnterActive в false, щоб не було анімації
   useEffect(() => {
-    const id = setTimeout(() => {
-      if (currentWord?.length === WORD_LENGTH) {
-        setIsEnter(false);
-      }
-    }, 1000);
-
-    return () => {
-      clearTimeout(id);
-    };
-  }, [isEnterActive]);
+    if(document.body.className.includes('modal-body--open')) {
+      setIsEnter(false)
+    }
+  }, [document.body.className.includes('modal-body--open')]);
 
   //подія на клік клавіатури
   useEffect(() => {
@@ -325,10 +320,10 @@ export const Field: FC = () => {
       <main>
         <div className={theme.field}>
           {board.map((row, idx) => (
-            <div key={idx} className={`${theme.row} ${theme[shakeRowAnimate(row)]}`}>
+            <div key={idx} className={`${theme.row} ${theme[shakeRowAnimate(row)] || ""}`}>
               {row.map((cell, i) => (
                 <div
-                  className={`${theme.cell} ${theme[cell.variant as Variant]} ${
+                  className={`${theme.cell} ${theme[cell.variant as Variant] || ""} ${
                     theme[FlipRowAnimate(row)]
                   }`}
                   key={i}
@@ -348,7 +343,11 @@ export const Field: FC = () => {
         handleBackspace={handleBackspace}
         handleEnter={handleEnter}
       />
-      <CustomModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
+      <CustomModal
+        isOpen={isOpenModal}
+        onClose={() => setIsOpenModal(false)}
+        content={ModalContent.statistic}
+      />
     </div>
   );
 };

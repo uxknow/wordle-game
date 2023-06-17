@@ -1,0 +1,29 @@
+{
+  "rules": {
+    "title": "How to play?",
+    "description": "[bold]Guess the word in six tries.[/bold] Each guess must be a dictionary noun, but not a proper name. Press [bold]enter[/bold] to confirm the attempt. After each attempt, the color will tell you how close you were:",
+    "wordExample1": "style",
+    "wordDesc1": "The letter [bold]S[/bold] is in the word exactly in this place",
+    "wordExample2": "color",
+    "wordDesc2":  "The letter [bold]L[/bold] is in the word, but not in this place",
+    "wordExample3": "night",
+    "wordDesc3": "None of these letters are in the word",
+    "info": "A new challenge every day!",
+    "footerText": "Original game:"
+  },
+  "statistic": {
+    "title": "Statistics",
+    "winGameMsg": "Congratulations! You won, keep it up.",
+    "loseGameMsg": "Unfortunately you lost, maybe next time you will be lucky. The correct word is ",
+    "statPlayed": "Played", 
+    "statWon": "Won",
+    "graphTitle": "Winning attempts",
+    "noDataMsg": "No data available",
+    "countdownText": "The next word is through"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Change theme",
+    "language": "Change dictionary(language)"
+  }
+}
