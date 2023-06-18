@@ -23,9 +23,9 @@ import { notify } from "../../utils/notify";
 import { ThemeContext } from "../themeContext";
 import { IThemeContext } from "../../common/types/theme-context";
 import { ModalContent } from "../../common/types/modal";
+import { useTranslation } from "react-i18next";
 import classesLight from "./light.module.scss";
 import classesDark from "./dark.module.scss";
-import { useTranslation } from "react-i18next";
 
 export const Field: FC = () => {
   const { i18n } = useTranslation();
