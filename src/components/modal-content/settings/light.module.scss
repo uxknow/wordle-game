@@ -41,3 +41,13 @@
     opacity: 0.8;
   }
 }
+
+@media screen and (max-width: 360px) {
+  .settings-block {
+    .row {
+      .select {
+        padding: 4px 0px;
+      }
+    }
+  }
+}

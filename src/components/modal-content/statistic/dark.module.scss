@@ -91,3 +91,11 @@
     letter-spacing: 0.1rem;
   }
 }
+
+@media screen and (max-width: 360px) {
+  .statistic-block {
+      .countdown {
+        font-size: 12px;      
+      }
+    }
+  }
