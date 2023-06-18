@@ -47,7 +47,7 @@ export const getWords = (board: TBoard) => {
 
 //Перевірка на повторення слова
 export const isRepeatedWord = (currentWord: string, words: string[]) => {
-    return  currentWord?.length === WORD_LENGTH && words.filter(word => word === currentWord).length > 1;
+    return  currentWord?.length === WORD_LENGTH && words?.filter(word => word === currentWord).length > 1;
 }
 
 //Начальний об'єкт для зберігання кількості спроб вгаданого слова

@@ -45,7 +45,7 @@ export const Settings: FC<IModalContentProps> = ({onClose}) => {
         <hr />
         <div className={theme.row}>
           <p>{t('settings.language')}</p>
-          <select className={theme.select} value={i18n.language} onChange={(e) => changeLanguage(e.target.value)}>
+          <select className={theme.select} value={i18n.language} onChange={(e) => changeLanguage(e.target.value)} disabled={!!localStorage.getItem('result') || !!localStorage.getItem('lastWord')}>
           {Object.keys(lngs).map((lang) => (
             <option className={theme.option} key={lang} value={lang} disabled={i18n.resolvedLanguage === lang}>
               {lngs[lang]}
@@ -53,6 +53,7 @@ export const Settings: FC<IModalContentProps> = ({onClose}) => {
           ))}
         </select>
         </div>
+        <p className={theme.desc}>{t('settings.warning')}</p>
       </div>
     </>
   )

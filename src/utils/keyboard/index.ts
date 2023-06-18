@@ -1,5 +1,5 @@
-const keys = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
-const uaKeys = ['йцукенгшщзхї', 'фівапролджє', 'ячсмитьбю']
+const enKeys = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
+const uaKeys = ['йцукенгґшщзх', 'фіївапролджє', 'ячсмитьбю']
 
-export const buttons = keys.map((letter) => [...letter]);
-export const uaButtons = keys.map((letter) => [...letter])
+export const enButtons = enKeys.map((letter) => [...letter]);
+export const uaButtons = uaKeys.map((letter) => [...letter])

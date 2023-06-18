@@ -25,8 +25,10 @@ import { IThemeContext } from "../../common/types/theme-context";
 import { ModalContent } from "../../common/types/modal";
 import classesLight from "./light.module.scss";
 import classesDark from "./dark.module.scss";
+import { useTranslation } from "react-i18next";
 
 export const Field: FC = () => {
+  const { i18n } = useTranslation();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [activeKey, setActiveKey] = useState("");
   const [isBackspaceActive, setIsBackspace] = useState(false);
@@ -34,9 +36,14 @@ export const Field: FC = () => {
   const [blockedInput, setBlockedInput] = useState(false);
   const [win, setWin] = useState(!!localStorage.getItem("result"));
   const [correctWord, setCorrectWord] = useState(
-    decodedWord(localStorage.getItem("target") || "") || getRandomWord()
+    decodedWord(localStorage.getItem("target") || "") || getRandomWord(i18n.language)
   );
   const [prevWord, setPrevWord] = useState(localStorage.getItem("lastWord") || "");
+  const [prevLang, setPrevLang] = useState(
+    !localStorage.getItem("i18nextLng")?.includes("uaen")
+      ? "ua"
+      : localStorage.getItem("i18nextLng")
+  );
   const { setFieldInfo } = useContext(FieldContext) as IValueContext;
 
   const boardFromLocalStorage = localStorage.getItem("board");
@@ -56,11 +63,13 @@ export const Field: FC = () => {
   const { theme: themeName } = useContext(ThemeContext) as IThemeContext;
   const theme = themeName === "dark" ? classesDark : classesLight;
 
+  const keyChars = i18n.language === "en" ? /^[a-zA-Z]$/ : /^[а-щА-ЩЬьЮюЯяЇїІіЄєҐґ]+$/;
+
   //додавання класу shake до поточного рядку поля
   const shakeRowAnimate = (row: ICellState[]) => {
     return (isEnterActive &&
       JSON.stringify(row) === JSON.stringify(getCurrentRowBoard(board)) &&
-      !isWord(currentWord || "")) ||
+      !isWord(currentWord || "", i18n.language)) ||
       (isEnterActive &&
         (currentWord as string)?.length > 0 &&
         currentWord?.length !== WORD_LENGTH &&
@@ -77,7 +86,7 @@ export const Field: FC = () => {
     return isEnterActive &&
       currentWord?.length === WORD_LENGTH &&
       JSON.stringify(row) === JSON.stringify(getCurrentRowBoard(board)) &&
-      isWord(currentWord) &&
+      isWord(currentWord, i18n.language) &&
       !isRepeatedWord(currentWord || "", getWords(board))
       ? "flip-cell"
       : "";
@@ -88,6 +97,19 @@ export const Field: FC = () => {
     setFieldInfo({ setCorrectWord, setBoard, setWin });
   }, [win]);
 
+  //Встановлюємо нове слово при зміні словаря
+  useEffect(() => {
+    console.log(prevLang, i18n.resolvedLanguage);
+    if (
+      prevLang !== i18n.resolvedLanguage &&
+      !localStorage.getItem("result") &&
+      !localStorage.getItem("target")
+    ) {
+      setCorrectWord(getRandomWord(i18n.language) as string);
+      setPrevLang(i18n.resolvedLanguage as string);
+    }
+  }, [i18n.language]);
+
   //Отримання введеного слова
   const currentWord = useMemo(() => {
     const row = getCurrentRowBoard(board);
@@ -97,10 +119,10 @@ export const Field: FC = () => {
 
   //встановлюємо isEnterActive в false, щоб не було анімації
   useEffect(() => {
-    if(document.body.className.includes('modal-body--open')) {
-      setIsEnter(false)
+    if (document.body.className.includes("modal-body--open")) {
+      setIsEnter(false);
     }
-  }, [document.body.className.includes('modal-body--open')]);
+  }, [document.body.className.includes("modal-body--open")]);
 
   //подія на клік клавіатури
   useEffect(() => {
@@ -112,8 +134,8 @@ export const Field: FC = () => {
         handleEnter();
       }
       if (
-        (e as KeyboardEvent).code.startsWith("Key") &&
-        (e as KeyboardEvent).key.match(/^[a-zA-Z]$/)
+        /*  (e as KeyboardEvent).code.startsWith("Key") &&*/
+        (e as KeyboardEvent).key.match(keyChars)
       ) {
         (e.target as HTMLElement).id = (e as KeyboardEvent).key;
         handlePressedClick(e as MouseEvent<HTMLDivElement>);
@@ -156,15 +178,15 @@ export const Field: FC = () => {
 
     //блокування вводу, якщо  такого слова нема, або недостатньо букв
     if (
-      (currentWord?.length === WORD_LENGTH && !isWord(currentWord)) ||
+      (currentWord?.length === WORD_LENGTH && !isWord(currentWord, i18n.language)) ||
       isRepeatedWord(currentWord || "", getWords(board))
     ) {
       setBlockedInput(true);
-      notify(currentWord, WORD_LENGTH, isWord);
+      notify(currentWord, WORD_LENGTH, isWord, isRepeatedWord, getWords(board));
       setIsEnter(true);
       return;
     } else if ((currentWord || "")?.length < WORD_LENGTH) {
-      notify(currentWord, WORD_LENGTH, isWord);
+      notify(currentWord, WORD_LENGTH, isWord, isRepeatedWord, getWords(board));
     }
 
     //збереження даних, коли слово вірне
@@ -188,7 +210,7 @@ export const Field: FC = () => {
     }
 
     //встановлення коліру клітинки
-    if (currentWord?.length === WORD_LENGTH && isWord(correctWord || "")) {
+    if (currentWord?.length === WORD_LENGTH && isWord(correctWord || "", i18n.language)) {
       setPrevWord(currentWord);
       setBoard((prev) => {
         const nextState = deepCopyField(prev);
@@ -230,7 +252,11 @@ export const Field: FC = () => {
     }
 
     //збереження даних, коли слово не вірне
-    if (IsFilledField(board) && isWord(currentWord || "") && correctWord !== currentWord) {
+    if (
+      IsFilledField(board) &&
+      isWord(currentWord || "", i18n.language) &&
+      correctWord !== currentWord
+    ) {
       setStats((prev) => ({
         games: prev.games + 1,
         won: prev.won,
@@ -253,7 +279,12 @@ export const Field: FC = () => {
 
   //встановлюємо boards в LS
   useEffect(() => {
-    if (isEnterActive && currentWord?.length === WORD_LENGTH && isWord(currentWord)) {
+    if (
+      isEnterActive &&
+      currentWord?.length === WORD_LENGTH &&
+      isWord(currentWord, i18n.language) &&
+      !isRepeatedWord(currentWord, getWords(board))
+    ) {
       localStorage.setItem("board", JSON.stringify(board));
     }
   }, [board]);
