@@ -291,10 +291,16 @@ export const Field: FC = () => {
 
   //коли гра закінчена, відкриття статистики
   useEffect(() => {
-    if (localStorage.getItem("result")) {
-      setIsOpenModal(true);
-    } else {
-      setIsOpenModal(false);
+    const id = setTimeout (() => {
+      if (localStorage.getItem("result")) {
+        setIsOpenModal(true);
+      } else {
+        setIsOpenModal(false);
+      }
+    }, 800)
+  
+    return () => {
+      clearTimeout(id)
     }
   }, [localStorage.getItem("result")]);
 
