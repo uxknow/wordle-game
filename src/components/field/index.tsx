@@ -99,7 +99,6 @@ export const Field: FC = () => {
 
   //Встановлюємо нове слово при зміні словаря
   useEffect(() => {
-    console.log(prevLang, i18n.resolvedLanguage);
     if (
       prevLang !== i18n.resolvedLanguage &&
       !localStorage.getItem("result") &&
@@ -134,7 +133,6 @@ export const Field: FC = () => {
         handleEnter();
       }
       if (
-        /*  (e as KeyboardEvent).code.startsWith("Key") &&*/
         (e as KeyboardEvent).key.match(keyChars)
       ) {
         (e.target as HTMLElement).id = (e as KeyboardEvent).key;
@@ -149,8 +147,6 @@ export const Field: FC = () => {
 
   //блокування вводу
   useEffect(() => {
-    console.log(correctWord);
-
     if (currentWord === correctWord) {
       setBlockedInput(true);
       return;
