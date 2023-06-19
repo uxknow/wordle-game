@@ -143,7 +143,7 @@ export const Field: FC = () => {
     (document as Element).addEventListener("keyup", handleKeyUp);
 
     return () => (document as Element).removeEventListener("keyup", handleKeyUp);
-  }, [blockedInput, currentWord, board]);
+  }, [blockedInput, currentWord, board, keyChars]);
 
   //блокування вводу
   useEffect(() => {
@@ -169,6 +169,7 @@ export const Field: FC = () => {
       win ||
       (IsFilledField(board) && localStorage.getItem("result"))
     ) {
+      setActiveKey((prev) => "");
       return;
     }
 
@@ -180,6 +181,7 @@ export const Field: FC = () => {
       setBlockedInput(true);
       notify(currentWord, WORD_LENGTH, isWord, isRepeatedWord, getWords(board));
       setIsEnter(true);
+      setActiveKey((prev) => "");
       return;
     } else if ((currentWord || "")?.length < WORD_LENGTH) {
       notify(currentWord, WORD_LENGTH, isWord, isRepeatedWord, getWords(board));
