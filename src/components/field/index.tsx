@@ -106,7 +106,6 @@ export const Field: FC = () => {
     ) {
       setCorrectWord(getRandomWord(i18n.language) as string);
       setPrevLang(i18n.resolvedLanguage as string);
-      console.log(correctWord)
     }
   }, [i18n.resolvedLanguage]);
 

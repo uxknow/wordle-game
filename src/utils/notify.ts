@@ -13,19 +13,3 @@ export const notify = (word, wordLength, isWord, isRepeatedWord, words) => {
   }
   return msg
 };
-
-
-// const {t} = useTranslation()
-
-// export const notify = (word, wordLength, isWord, isRepeatedWord, words) => {
-//   let msg: string | number = ''
-
-//   if (word.length < wordLength) {
-//     msg = toast(t('notify.notLength'))
-//   } else if (isRepeatedWord(word, words)) {
-//     msg = toast(t('notify.existWord'));
-//   } else if (!isWord(word)) {
-//     msg = toast(t('notify.notWord'))
-//   }
-//   return msg
-// };
